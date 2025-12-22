@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mynest/app.dart';
 
 void main() {
-  runApp(Container(
-
-  ));
+  runApp(const App());
 }
