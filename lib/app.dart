@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mynest/providers/auth_provider.dart';
+import 'package:mynest/repository/auth_repository.dart';
 import 'package:mynest/routes/router.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +12,7 @@ class App extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => AuthProvider(), 
+          create: (_) => AuthProvider(AuthRepository()), 
         ),
       ],
       child: MaterialApp(
