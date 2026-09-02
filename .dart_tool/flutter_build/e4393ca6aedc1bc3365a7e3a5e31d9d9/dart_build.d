@@ -1,0 +1,1 @@
+ /home/luiz/Documentos/Projetos/mynest/app-mynest/.dart_tool/flutter_build/e4393ca6aedc1bc3365a7e3a5e31d9d9/dart_build_result.json: 

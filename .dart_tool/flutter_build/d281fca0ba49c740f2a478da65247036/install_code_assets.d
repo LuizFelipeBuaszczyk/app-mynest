@@ -1,0 +1,1 @@
+ /home/luiz/Documentos/Projetos/mynest/.dart_tool/flutter_build/d281fca0ba49c740f2a478da65247036/native_assets.json: 
