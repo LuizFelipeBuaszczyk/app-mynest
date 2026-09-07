@@ -3,17 +3,25 @@ import { Text, StyleSheet, TouchableOpacity, TextInput, ScrollView } from "react
 
 import { login } from "@/services/auth_service";
 import { LoginRequest } from "@/types/auth";
+import { FunctionResponse, StatusEnum } from "@/types/response";
+import { useRouter } from "expo-router";
 
 export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const router = useRouter();
 
     const handleLogin = (username: string, password: string) => {
         const request: LoginRequest = {
             username: username,
             password: password
         }
-        const result = login(request);
+        login(request)
+            .then((result: FunctionResponse) => {
+            if (result.status == StatusEnum.SUCCESS) {
+                return router.replace('/(private)/dashboard');
+            } 
+        });
     }
 
     return (
@@ -32,6 +40,7 @@ export default function Login() {
                 placeholder="Password"
                 value={password}
                 onChangeText={(newPassword)=>setPassword(newPassword)}
+                secureTextEntry={true}
             />
             <TouchableOpacity style={styles.button} onPress={() => handleLogin(username, password)}>
                 <Text>Login</Text>
