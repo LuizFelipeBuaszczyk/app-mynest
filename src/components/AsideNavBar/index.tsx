@@ -1,3 +1,4 @@
+import { RelativePathString, useRouter } from "expo-router";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 interface AsideNavBarProps {
@@ -10,7 +11,13 @@ const navItems = [
 ];
 
 export default function AsideNavBar({ visible, onClose }: AsideNavBarProps) {
+    const router = useRouter();
     if (!visible) return null;
+        
+    const handleNavigation = (route: RelativePathString) => {
+        router.replace(route);
+        onClose();
+    };
 
     return (
         <View style={styles.container}>
@@ -22,7 +29,7 @@ export default function AsideNavBar({ visible, onClose }: AsideNavBarProps) {
                         <TouchableOpacity
                             key={index}
                             style={styles.navItem}
-                            onPress={onClose}
+                            onPress={() => handleNavigation(item.route)}
                         >
                             <Text style={styles.navItemText}>{item.label}</Text>
                         </TouchableOpacity>
