@@ -1,7 +1,8 @@
 import { SETTINGS } from "@/utils/settings";
 import { storage } from "@/utils/storage";
 import { StatusEnum, APIResponse } from "@/types/response";
-import { useRouter } from "expo-router";
+
+import { UnathourizedError } from "@/types/exceptions";
 
 export class API {
     url: string;
@@ -44,7 +45,7 @@ export class API {
             return {
                 status: StatusEnum.ERROR,
                 payload: {
-                    message: error
+                    detail: error
                 }
             }
         }
@@ -52,10 +53,9 @@ export class API {
 
     _get_access_token() {
         const access_token = storage.getString('access_token');
-        const router = useRouter();
         
         if (!access_token) {
-            router.replace('/login'); 
+            throw new UnathourizedError('token not found');
         }
         return access_token;
     }

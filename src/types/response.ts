@@ -10,5 +10,9 @@ export interface FunctionResponse {
 
 export interface APIResponse {
     status: StatusEnum,
-    payload: object
+    payload: any
+}
+
+export interface APIErrorResponse {
+    detail: string
 }

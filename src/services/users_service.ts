@@ -1,48 +1,33 @@
 import { CreateUserRequest } from "@/types/users";
-import { FunctionResponse, StatusEnum } from "@/types/response";
+import { FunctionResponse, StatusEnum, APIErrorResponse } from "@/types/response";
 
-import { SETTINGS } from "@/utils/settings";
-import { storage } from "@/utils/storage";
+import { API } from "@/utils/http";
 
 async function create_user(user: CreateUserRequest): Promise<FunctionResponse> {
-    const url = `${SETTINGS.API_BACKEND_URL}/users`; 
-    const payload = JSON.stringify(user);
-    const access_token = storage.getString('access_token');
+    const endpoint = '/users'; 
+    const payload = user;
     
-    if (!access_token) { // TODO Redirect to login ?? 
-     return { 
-            status: StatusEnum.ERROR,
-            message: 'token not found'
-        }
-    }
+    const api = new API();
+    const response = await api.request(
+        'POST',
+        endpoint,
+        payload,
+        true
+    );
 
-    try {
-        const response = await fetch(url, {
-            body: payload,
-            method: 'POST',
-            headers: {
-                'access-token': access_token
-            }
-        });
+    if (response.status == StatusEnum.ERROR) {
+        const payload: APIErrorResponse = response.payload;
 
-        console.log(await response.json())
-
-        
         return {
-            status: StatusEnum.SUCCESS,
-            message: 'user created'
-        }
-        
-
-    } catch (error) {
-        console.log(error);
-
-        return { // TODO tratar as responses da API
             status: StatusEnum.ERROR,
-            message: 'error'
+            message: payload.detail
         }
     }
-
+            
+    return {
+        status: StatusEnum.SUCCESS,
+        message: 'user created'
+    }
 }
 
 
