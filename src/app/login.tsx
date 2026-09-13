@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Text, StyleSheet, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import { Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, View } from "react-native";
 
 import { login } from "@/services/auth_service";
 import { LoginRequest } from "@/types/auth";
 import { FunctionResponse, StatusEnum } from "@/types/response";
 import { useRouter } from "expo-router";
+
+import FormInput from "@/components/FormInput/FormInput";
 
 export default function Login() {
     const [username, setUsername] = useState('');
@@ -27,21 +29,19 @@ export default function Login() {
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.title}>Sign in</Text>
-            <Text>Username</Text>
-            <TextInput 
-                style={styles.input} 
-                placeholder="Username"
-                value={username}
-                onChangeText={(newUsername) => setUsername(newUsername)}
-            />
-            <Text>Password</Text>
-            <TextInput 
-                style={styles.input} 
-                placeholder="Password"
-                value={password}
-                onChangeText={(newPassword)=>setPassword(newPassword)}
-                secureTextEntry={true}
-            />
+            <View style={styles.form}>
+                <FormInput 
+                    placeholder="username"
+                    label="Username"
+                    onChange={setUsername}
+                />
+                <FormInput 
+                    placeholder="password"
+                    label="Password"
+                    onChange={setPassword}
+                    securityText={true}
+                />
+            </View>
             <TouchableOpacity style={styles.button} onPress={() => handleLogin(username, password)}>
                 <Text>Login</Text>
             </TouchableOpacity>
@@ -57,12 +57,11 @@ const styles = StyleSheet.create({
         fontSize: 32,
         margin: 10,
     },
-    input: {
-        borderRadius: 4,
-        borderStyle: "solid",
-        borderWidth: 1,
-        borderColor: "#000",
-        marginBottom: 10
+    form: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 10,
+        marginBottom: 20
     },
     button: {
         display: "flex",
