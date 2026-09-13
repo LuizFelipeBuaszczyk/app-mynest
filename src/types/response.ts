@@ -7,3 +7,12 @@ export interface FunctionResponse {
     status: StatusEnum,
     message: string
 }
+
+export interface APIResponse {
+    status: StatusEnum,
+    payload: any
+}
+
+export interface APIErrorResponse {
+    detail: string
+}

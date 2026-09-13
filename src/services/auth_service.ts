@@ -1,34 +1,35 @@
 import { LoginRequest, LoginResponse } from "@/types/auth";
 import { FunctionResponse, StatusEnum } from "@/types/response";
+import { API } from "@/utils/http";
 
-import { SETTINGS } from "@/utils/settings";
 import { storage } from "@/utils/storage";
 
 async function login(request: LoginRequest): Promise<FunctionResponse> {
-    const url = `${SETTINGS.API_BACKEND_URL}/auth/login`;
-    const payload = JSON.stringify(request);
+    const payload = request;
+    
+    const api = new API();
 
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            body: payload
-        });
-        
-        const data: LoginResponse = await response.json();
-        storage.set('access_token', data.access_token);
-        storage.set('refresh_token', data.refresh_token);
+    const response = await api.request(
+        'POST',
+        '/auth/login',
+        payload,
+        false
+    );
 
-        return {
-            status: StatusEnum.SUCCESS,
-            message: 'successful login'
-        }
-
-    } catch (error) {
-        console.error("Ocorreu um erro", error);
+    if (response.status == StatusEnum.ERROR) {
         return {
             status: StatusEnum.ERROR,
             message: 'Ocorreu um erro' // TODO Tratar melhor isso, pode ser 401, 400, ou erro interno
         }
+    }; 
+
+    const data: LoginResponse = response.payload;
+    storage.set('access_token', data.access_token);
+    storage.set('refresh_token', data.refresh_token);
+
+    return {
+        status: StatusEnum.SUCCESS,
+        message: 'successful login'
     }
 }
 
