@@ -7,13 +7,14 @@ import { FunctionResponse, StatusEnum } from "@/types/response";
 import { useRouter } from "expo-router";
 
 import FormInput from "@/components/FormInput/FormInput";
+import ActionButton from "@/components/ActionButton/ActionButton";
 
 export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
 
-    const handleLogin = (username: string, password: string) => {
+    const handleLogin = () => {
         const request: LoginRequest = {
             username: username,
             password: password
@@ -42,9 +43,10 @@ export default function Login() {
                     securityText={true}
                 />
             </View>
-            <TouchableOpacity style={styles.button} onPress={() => handleLogin(username, password)}>
-                <Text>Login</Text>
-            </TouchableOpacity>
+            <ActionButton 
+                text="Login"
+                onPress={handleLogin}
+            />
         </ScrollView>
     );
 }
@@ -63,12 +65,4 @@ const styles = StyleSheet.create({
         gap: 10,
         marginBottom: 20
     },
-    button: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 4,
-        padding: 10,
-        backgroundColor: "#00b4d8",
-    }
 })

@@ -1,16 +1,18 @@
 import { useState } from "react";
-import { ScrollView, Text, TextInput, TouchableOpacity } from "react-native";
+import { ScrollView, Text, StyleSheet,View } from "react-native";
 
 import { create_user } from "@/services/users_service";
 import { CreateUserRequest } from "@/types/users";
+
 import FormInput from "@/components/FormInput/FormInput";
+import ActionButton from "@/components/ActionButton/ActionButton";
 
 export default function Create() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
 
-    const handleCreateUser = (username: string, password: string, email: string) => {
+    const handleCreateUser = () => {
 
         const request: CreateUserRequest = {
             'username': username,
@@ -25,29 +27,41 @@ export default function Create() {
     }
 
     return (
-        <ScrollView>
-            <Text>Crete an user</Text>
-            <FormInput 
-                label='Username'
-                placeholder='username'
-                onChange={setUsername}
-            /> 
-            <FormInput 
-                label='Email'
-                placeholder='email'
-                onChange={setEmail}
-            /> 
-             <FormInput 
-                label='Password'
-                placeholder='password'
-                onChange={setPassword}
-                securityText={true}
-            /> 
-           <TouchableOpacity
-                onPress={() => handleCreateUser(username, password, email)}
-            >
-                <Text>Create</Text>
-            </TouchableOpacity>
+        <ScrollView style={styles.container}>
+            <View style={styles.form}>
+                <Text>Crete an user</Text>
+                <FormInput 
+                    label='Username'
+                    placeholder='username'
+                    onChange={setUsername}
+                /> 
+                <FormInput 
+                    label='Email'
+                    placeholder='email'
+                    onChange={setEmail}
+                /> 
+                 <FormInput 
+                    label='Password'
+                    placeholder='password'
+                    onChange={setPassword}
+                    securityText={true}
+                /> 
+                <ActionButton 
+                    text="Create"
+                    onPress={handleCreateUser}
+                /> 
+            </View>
         </ScrollView>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        padding: 10,
+    },
+    form: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 10,
+    }
+});
