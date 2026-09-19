@@ -10,6 +10,7 @@ export interface FunctionResponse {
 
 export interface APIResponse {
     status: StatusEnum,
+    status_code: number,
     payload: any
 }
 
