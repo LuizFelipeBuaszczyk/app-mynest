@@ -9,6 +9,7 @@ interface AsideNavBarProps {
 const navItems = [
     { label: "Dashboard", route: "/(private)/dashboard" },
     { label: "Users", route: "/(private)/users"},
+    { label: "Passwords", route: "/(private)/passwords"},
 ];
 
 export default function AsideNavBar({ visible, onClose }: AsideNavBarProps) {

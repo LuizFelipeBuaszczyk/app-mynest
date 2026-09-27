@@ -8,8 +8,29 @@ interface POSTProps {
     payload?: object
 }
 
+interface GETProps {
+    endpoint: string,
+    params?: object
+}
+
 export class PrivateAPI extends API {
     
+    public async GET({endpoint, params}: GETProps): Promise<APIResponse> {
+        const method = 'GET';
+        const header = this.create_header();
+        
+        // TODO: Tratar endpoint com os params
+
+        return await this.request(
+            {
+                method: method,
+                endpoint: endpoint,
+                header: header
+            }
+        );
+        
+    }
+
     public async POST({endpoint, payload}: POSTProps): Promise<APIResponse> {
         const method = 'POST';
         const header = this.create_header();
