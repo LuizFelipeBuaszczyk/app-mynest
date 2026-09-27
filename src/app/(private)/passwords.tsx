@@ -6,18 +6,28 @@ import LinkButton from "@/components/LinkButton/LinkButton";
 import ListRow from "@/components/ListRow/ListRow";
 import { Password } from "@/types/password";
 
+import { list_passwords } from "@/services/password_service";
+import { ListPasswordResponse } from "@/types/password";
+
 export default function Passwords() {
     const [passwords, setPasswords] = useState<Array<Password>>([]);
-        
+    
+    // Load passwords
     useEffect(() => {
-        setPasswords([{
-            id: 1,
-            name: 'Teste',
-        }]);
+        const response = list_passwords()
+            .then((res) => {
+                if (!res.data) {
+                    console.log("invalid response data");
+                    return;
+                }
+                const payload = res.data as ListPasswordResponse;
+                setPasswords(payload.data);
+            });
+        
     }, [])
 
     const handleRow = () => {
-        console.log("You clicked in any row");
+        // TODO: Ao clicar em uma linha ele deve redirecionar para a página com os detalhes daquela password
     }
 
     return (
@@ -26,6 +36,7 @@ export default function Passwords() {
             <View style={styles.table}>
             {passwords.map((password) => (
                 <ListRow 
+                    key= {password.id.toString()}
                     title= {password.name}
                     onPress= {handleRow}
                 />
@@ -54,5 +65,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 10,
     },
-    table: {}
+    table: {
+        margin: 'auto',
+        width: '80%'
+    }
 });

@@ -5,7 +5,8 @@ export enum StatusEnum {
 
 export interface FunctionResponse {
     status: StatusEnum,
-    message: string
+    message: string,
+    data?: object
 }
 
 export interface APIResponse {

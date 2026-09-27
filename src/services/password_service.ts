@@ -2,9 +2,9 @@
 import { PrivateAPI } from "@/utils/api/private";
 import { CreatePasswordRequest } from "@/types/password";
 import { refresh_token } from "./auth_service";
-import { APIErrorResponse, StatusEnum } from "@/types/response";
+import { APIErrorResponse, FunctionResponse, StatusEnum } from "@/types/response";
 
-async function list_passwords() {
+async function list_passwords(): Promise<FunctionResponse> {
     const endpoint = '/passwords';
 
     const api = new PrivateAPI();
@@ -42,7 +42,8 @@ async function list_passwords() {
             
     return {
         status: StatusEnum.SUCCESS,
-        message: 'list of passwords'
+        message: 'list of passwords',
+        data: response.payload
     }
 }
 
@@ -97,5 +98,6 @@ async function create_password( password: CreatePasswordRequest) {
 
 
 export {
-    create_password
+    create_password,
+    list_passwords
 }
