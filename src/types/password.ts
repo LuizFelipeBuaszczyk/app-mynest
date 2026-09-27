@@ -5,3 +5,8 @@ export interface CreatePasswordRequest {
     description: string,
     password: string
 }
+
+export interface Password {
+    id: Number,
+    name: string
+}
